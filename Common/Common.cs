@@ -17,11 +17,11 @@ namespace DarkMultiPlayerCommon
         //Split messages into 8kb chunks to higher priority messages have more injection points into the TCP stream.
         public const int SPLIT_MESSAGE_LENGTH = 8192;
         //Bump this every time there is a network change (Basically, if MessageWriter or MessageReader is touched).
-        public const int PROTOCOL_VERSION = 48;
+        public const int PROTOCOL_VERSION = 46;
         //Program version. This is written in the build scripts.
-        public const string PROGRAM_VERSION = "Custom";
+        public const string PROGRAM_VERSION = "Tuxlinux 1.2B";
         //Mod control version - The last version to add parts
-        public const string MODCONTROL_VERSION = "1.6";
+        public const string MODCONTROL_VERSION = "1.4";
         //Compression threshold
         public const int COMPRESSION_THRESHOLD = 4096;
 
@@ -445,25 +445,7 @@ namespace DarkMultiPlayerCommon
                 "Rockomax16.BW",
                 "Rockomax32.BW",
                 "Rockomax64.BW",
-                "Rockomax8BW",
-                // 1.5.1 parts
-                "mk1pod.v2",
-                "probeCoreHex.v2",
-                "probeCoreOcto2.v2",
-                "probeCoreOcto.v2",
-                "roverBody.v2",
-                "probeCoreSphere.v2",
-                "solidBooster.v2",
-                "solidBooster.sm.v2",
-                // 1.6 parts
-                "rocketNoseCone.v2",
-                "mk2LanderCabin.v2",
-                "liquidEngineMini.v2",
-                "liquidEngine3.v2",
-                "liquidEngine2-2.v2",
-                "Size3To2Adapter.v2",
-                "stackBiCoupler.v2",
-                "stackTriCoupler.v2"
+                "Rockomax8BW"
             };
             return stockPartList;
             //MAKE SURE TO CHANGE Common.MODCONTROL_VERSION

@@ -399,13 +399,13 @@ namespace DarkMultiPlayer
                     //handle use of cheats
                     if (!dmpGame.serverAllowCheats)
                     {
-                        CheatOptions.InfinitePropellant = false;
-                        CheatOptions.NoCrashDamage = false;
-                        CheatOptions.IgnoreAgencyMindsetOnContracts = false;
-                        CheatOptions.IgnoreMaxTemperature = false;
-                        CheatOptions.InfiniteElectricity = false;
-                        CheatOptions.NoCrashDamage = false;
-                        CheatOptions.UnbreakableJoints = false;
+                        CheatOptions.InfinitePropellant = true;
+                        CheatOptions.NoCrashDamage = true;
+                        CheatOptions.IgnoreAgencyMindsetOnContracts = true;
+                        CheatOptions.IgnoreMaxTemperature = true;
+                        CheatOptions.InfiniteElectricity = true;
+                        CheatOptions.NoCrashDamage = true;
+                        CheatOptions.UnbreakableJoints = true;
 
                         foreach (KeyValuePair<CelestialBody, double> gravityEntry in bodiesGees)
                         {

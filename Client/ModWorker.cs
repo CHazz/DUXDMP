@@ -503,7 +503,7 @@ namespace DarkMultiPlayer
             {
                 sw.Write(modFileData);
             }
-            ScreenMessages.PostScreenMessage("mod-control.txt file generated in your KSP folder\nMove it to DMPServer/Config/", 5f, ScreenMessageStyle.UPPER_CENTER);
+	    ScreenMessages.PostScreenMessage("mod-control.txt file generated in your KSP folder\nMove it to DMPServer/Config/", 5f, ScreenMessageStyle.UPPER_CENTER);
         }
 
         public void CheckCommonStockParts()
