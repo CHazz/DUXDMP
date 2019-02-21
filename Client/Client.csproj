@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7AD735F5-A076-44D2-97EC-02ECAD827001}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DarkMultiPlayer</RootNamespace>
+    <AssemblyName>DarkMultiPlayer</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UseMSBuildEngine>false</UseMSBuildEngine>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="MessageWriter2">
+      <HintPath>..\MessageWriter2.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="ConfigNodeSerializer.cs" />
+    <Compile Include="Utilities\CompatibilityChecker.cs" />
+    <Compile Include="VesselWorker.cs" />
+    <Compile Include="TimeSyncer.cs" />
+    <Compile Include="NetworkWorker.cs" />
+    <Compile Include="ConnectionWindow.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="WarpWorker.cs" />
+    <Compile Include="PlayerStatusWindow.cs" />
+    <Compile Include="PlayerStatusWorker.cs" />
+    <Compile Include="ScenarioWorker.cs" />
+    <Compile Include="DebugWindow.cs" />
+    <Compile Include="DynamicTickWorker.cs" />
+    <Compile Include="ModWorker.cs" />
+    <Compile Include="ModWindow.cs" />
+    <Compile Include="CraftLibraryWorker.cs" />
+    <Compile Include="ChatWorker.cs" />
+    <Compile Include="UniverseSyncCache.cs" />
+    <Compile Include="ScreenshotWorker.cs" />
+    <Compile Include="LockSystem.cs" />
+    <Compile Include="AsteroidWorker.cs" />
+    <Compile Include="PlayerColorWorker.cs" />
+    <Compile Include="OptionsWindow.cs" />
+    <Compile Include="UniverseConverter.cs" />
+    <Compile Include="UniverseConverterWindow.cs" />
+    <Compile Include="Utilities\InstallChecker.cs" />
+    <Compile Include="FlagSyncer.cs" />
+    <Compile Include="DisclaimerWindow.cs" />
+    <Compile Include="DMPModInterface.cs" />
+    <Compile Include="Profiler.cs" />
+    <Compile Include="AdminSystem.cs" />
+    <Compile Include="VesselUpdate.cs" />
+    <Compile Include="VesselUtil.cs" />
+    <Compile Include="VesselProtoUpdate.cs" />
+    <Compile Include="DMPGuiUtil.cs" />
+    <Compile Include="ToolbarWrapper.cs" />
+    <Compile Include="ToolbarSupport.cs" />
+    <Compile Include="3DDebug.cs" />
+    <Compile Include="HackyInAtmoLoader.cs" />
+    <Compile Include="PartKiller.cs" />
+    <Compile Include="KerbalReassigner.cs" />
+    <Compile Include="DMPGame.cs" />
+    <Compile Include="VesselRecorder.cs" />
+    <Compile Include="PosistionStatistics.cs" />
+    <Compile Include="VesselCtrlUpdate.cs" />
+    <Compile Include="VesselInterFrameUpdater.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\DarkMultiPlayerCommon.csproj">
+      <Project>{423C5A4B-EA79-450D-BD86-5B46141D58D1}</Project>
+      <Name>DarkMultiPlayerCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
