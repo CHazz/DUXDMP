@@ -19,7 +19,7 @@ namespace DarkMultiPlayerCommon
         //Bump this every time there is a network change (Basically, if MessageWriter or MessageReader is touched).
         public const int PROTOCOL_VERSION = 46;
         //Program version. This is written in the build scripts.
-        public const string PROGRAM_VERSION = "Tuxlinux 1.3";
+        public const string PROGRAM_VERSION = "Tuxlinux 1.4";
         //Mod control version - The last version to add parts
         public const string MODCONTROL_VERSION = "1.4";
         //Compression threshold
