@@ -19,7 +19,7 @@ namespace DarkMultiPlayerCommon
         //Bump this every time there is a network change (Basically, if MessageWriter or MessageReader is touched).
         public const int PROTOCOL_VERSION = 46;
         //Program version. This is written in the build scripts.
-        public const string PROGRAM_VERSION = "Tuxlinux 1.4";
+        public const string PROGRAM_VERSION = "Tuxlinux 1.5";
         //Mod control version - The last version to add parts
         public const string MODCONTROL_VERSION = "1.4";
         //Compression threshold
@@ -573,6 +573,12 @@ namespace DarkMultiPlayerCommon
         CONNECTION_END
     }
 
+    public enum MeshMessageType
+    {
+        SET_PLAYER,
+        VESSEL_UPDATE
+    }
+
     public enum ServerMessageType
     {
         HEARTBEAT,
@@ -770,7 +776,7 @@ namespace DarkMultiPlayerCommon
         public double planetTime = 0;
     }
 
-    public enum HandshakeReply : int
+    public enum HandshakeReply
     {
         HANDSHOOK_SUCCESSFULLY = 0,
         PROTOCOL_MISMATCH = 1,
@@ -784,7 +790,7 @@ namespace DarkMultiPlayerCommon
         MALFORMED_HANDSHAKE = 99
     }
 
-    public enum GameDifficulty : int
+    public enum GameDifficulty
     {
         EASY,
         NORMAL,

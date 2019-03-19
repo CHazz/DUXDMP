@@ -26,10 +26,8 @@ namespace DarkMultiPlayer
             {
                 //Down vector
                 Vector3d downVector = -body.GetSurfaceNVector(latitude, longitude);
-
-		//Magic numbers!
-		LayerMask groundMask = 33792;
-
+                //Magic numbers, comes from Vessel.GetHeightFromTerrain
+                LayerMask groundMask = 32768;
                 RaycastHit[] raycastHits = Physics.RaycastAll(origin, downVector, 1000f, groundMask);
                 foreach (RaycastHit raycastHit in raycastHits)
                 {
@@ -50,7 +48,7 @@ namespace DarkMultiPlayer
                     }
                 }
             }
-            if (highestHit == double.NegativeInfinity)
+            if (double.IsNegativeInfinity(highestHit))
             {
                 return new DMPRaycastPair(-1f, Vector3.up);
             }

@@ -104,6 +104,7 @@ namespace DarkMultiPlayer
             connectionWindow = new ConnectionWindow(dmpSettings, optionsWindow);
             disclaimerWindow = new DisclaimerWindow(dmpSettings);
             dmpModInterface = new DMPModInterface();
+            SafetyBubble.RegisterDefaultLocations();
 
             if (!CompatibilityChecker.IsCompatible() || !InstallChecker.IsCorrectlyInstalled())
                 modDisabled = true;
@@ -155,11 +156,11 @@ namespace DarkMultiPlayer
                         {
                             //IPv6 literal
                             address = commandLineArg.Substring("dmp://[".Length);
-                            address = address.Substring(0, address.LastIndexOf("]"));
+                            address = address.Substring(0, address.LastIndexOf("]", StringComparison.Ordinal));
                             if (commandLineArg.Contains("]:"))
                             {
                                 //With port
-                                string portString = commandLineArg.Substring(commandLineArg.LastIndexOf("]:") + 1);
+                                string portString = commandLineArg.Substring(commandLineArg.LastIndexOf("]:", StringComparison.Ordinal) + 1);
                                 if (!Int32.TryParse(portString, out port))
                                 {
                                     valid = false;
@@ -173,8 +174,8 @@ namespace DarkMultiPlayer
                             {
                                 //With port
                                 address = commandLineArg.Substring("dmp://".Length);
-                                address = address.Substring(0, address.LastIndexOf(":"));
-                                string portString = commandLineArg.Substring(commandLineArg.LastIndexOf(":") + 1);
+                                address = address.Substring(0, address.LastIndexOf(":", StringComparison.Ordinal));
+                                string portString = commandLineArg.Substring(commandLineArg.LastIndexOf(":", StringComparison.Ordinal) + 1);
                                 if (!Int32.TryParse(portString, out port))
                                 {
                                     valid = false;
@@ -311,9 +312,12 @@ namespace DarkMultiPlayer
                 {
                     foreach (Action updateAction in dmpGame.updateEvent)
                     {
+#if !DEBUG
                         try
                         {
+#endif
                             updateAction();
+#if !DEBUG
                         }
                         catch (Exception e)
                         {
@@ -330,6 +334,7 @@ namespace DarkMultiPlayer
                                 }
                             }
                         }
+#endif
                     }
                 }
                 //Force quit
@@ -485,9 +490,12 @@ namespace DarkMultiPlayer
             {
                 foreach (Action fixedUpdateAction in dmpGame.fixedUpdateEvent)
                 {
+#if !DEBUG
                     try
                     {
+#endif
                         fixedUpdateAction();
+#if !DEBUG
                     }
                     catch (Exception e)
                     {
@@ -507,7 +515,9 @@ namespace DarkMultiPlayer
                             }
                         }
                     }
+#endif
                 }
+
             }
             Profiler.fixedUpdateData.ReportTime(startClock);
         }
@@ -537,16 +547,20 @@ namespace DarkMultiPlayer
                 {
                     foreach (Action drawAction in dmpGame.drawEvent)
                     {
+#if !DEBUG
                         try
                         {
+#endif
                             // Don't hide the connectionWindow if we disabled DMP GUI
                             if (toolbarShowGUI || (!toolbarShowGUI && drawAction.Target.ToString() == "DarkMultiPlayer.connectionWindow"))
                                 drawAction();
+#if !DEBUG
                         }
                         catch (Exception e)
                         {
                             DarkLog.Debug("Threw in OnGUI event, exception: " + e);
                         }
+#endif
                     }
                 }
             }

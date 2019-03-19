@@ -44,7 +44,7 @@ namespace DarkMultiPlayerServer
     {
         // General Options
         [Description("Allow Stock Vessels")]
-        public bool allowStockVessels = true;
+        public bool allowStockVessels = false;
         [Description("Auto-Hire Crewmemebers before Flight")]
         public bool autoHireCrews = true;
         [Description("No Entry Purchase Required on Research")]

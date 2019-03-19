@@ -201,20 +201,33 @@ namespace DarkMultiPlayer
                     }
                 }
 
-                if (interpolatorEnabled && nextUpdate != null && (Math.Abs(nextUpdate.planetTime - Planetarium.GetUniversalTime())) < 5f)
+                if (interpolatorEnabled)
                 {
-                    double scaling = (Planetarium.GetUniversalTime() - interpolatorDelay - planetTime) / (nextUpdate.planetTime - planetTime);
-                    Vector3d nextPosition = updateBody.GetWorldSurfacePosition(nextUpdate.position[0], nextUpdate.position[1], nextUpdate.position[2] + altitudeFudge);
-                    Vector3d nextVelocity = updateBody.bodyTransform.rotation * new Vector3d(nextUpdate.velocity[0], nextUpdate.velocity[1], nextUpdate.velocity[2]);
-                    newUpdatePostion = Vector3d.Lerp(updatePostion, nextPosition, scaling);
-                    newUpdateVelocity = Vector3d.Lerp(updateVelocity, nextVelocity, scaling);
+                    if (nextUpdate != null && (Math.Abs(nextUpdate.planetTime - Planetarium.GetUniversalTime())) < 5f)
+                    {
+                        double scaling = (Planetarium.GetUniversalTime() - interpolatorDelay - planetTime) / (nextUpdate.planetTime - planetTime);
+                        Vector3d nextPosition = updateBody.GetWorldSurfacePosition(nextUpdate.position[0], nextUpdate.position[1], nextUpdate.position[2] + altitudeFudge);
+                        Vector3d nextVelocity = updateBody.bodyTransform.rotation * new Vector3d(nextUpdate.velocity[0], nextUpdate.velocity[1], nextUpdate.velocity[2]);
+                        newUpdatePostion = Vector3d.Lerp(updatePostion, nextPosition, scaling);
+                        newUpdateVelocity = Vector3d.Lerp(updateVelocity, nextVelocity, scaling);
+                    }
+                    else
+                    {
+                        if (previousUpdate == null)
+                        {
+                            StepExtrapolate(updatePostion, updateVelocity, updateAcceleration, planetariumDifference, out newUpdatePostion, out newUpdateVelocity);
+                        }
+                        else
+                        {
+                            StepExtrapolateWithRotation(previousUpdate, updatePostion, updateVelocity, updateAcceleration, planetariumDifference, out newUpdatePostion, out newUpdateVelocity);
+                        }
+                    }
                 }
-
-		Vector3d orbitalPos = newUpdatePostion - updateBody.position;
+                Vector3d vectorBetweenCoMandRoot = updateVessel.orbitDriver.driverTransform.rotation * updateVessel.localCoM;
+                Vector3d orbitalPos = newUpdatePostion + vectorBetweenCoMandRoot - updateBody.position;
                 Vector3d surfaceOrbitVelDiff = updateBody.getRFrmVel(newUpdatePostion);
                 Vector3d orbitalVel = newUpdateVelocity + surfaceOrbitVelDiff;
                 updateVessel.orbitDriver.orbit.UpdateFromStateVectors(orbitalPos.xzy, orbitalVel.xzy, updateBody, Planetarium.GetUniversalTime());
-
             }
             else
             {
@@ -241,7 +254,7 @@ namespace DarkMultiPlayer
                 }
             }
 
-                if (nextUpdate != null && interpolatorEnabled && isSurfaceUpdate)
+            if (nextUpdate != null && interpolatorEnabled && isSurfaceUpdate)
             {
                 double deltaUpdateT = nextUpdate.planetTime - planetTime;
                 double deltaRealT = Planetarium.GetUniversalTime() - interpolatorDelay - planetTime;
@@ -260,7 +273,7 @@ namespace DarkMultiPlayer
             updateVessel.srfRelRotation = updateRotation;
 
             Vector3 angularVel = updateVessel.ReferenceTransform.rotation * new Vector3(angularVelocity[0], angularVelocity[1], angularVelocity[2]);
-            if (updateVessel.parts != null && !updateVessel.packed)
+            if (updateVessel.parts != null)
             {
                 for (int i = 0; i < updateVessel.parts.Count; i++)
                 {
@@ -287,9 +300,9 @@ namespace DarkMultiPlayer
 
             //Updates Vessel.CoMD, which is used for GetWorldPos3D
             updateVessel.precalc.CalculatePhysicsStats();
-            updateVessel.latitude = updateBody.GetLatitude(updateVessel.GetWorldPos3D());
-            updateVessel.longitude = updateBody.GetLongitude(updateVessel.GetWorldPos3D());
-            updateVessel.altitude = updateBody.GetAltitude(updateVessel.GetWorldPos3D());
+            updateVessel.latitude = updateBody.GetLatitude(updateBody.position + updateVessel.orbitDriver.pos);
+            updateVessel.longitude = updateBody.GetLongitude(updateBody.position + updateVessel.orbitDriver.pos);
+            updateVessel.altitude = updateVessel.orbitDriver.orbit.altitude;
 
             double distanceError = Vector3d.Distance(oldPos, updateVessel.GetWorldPos3D());
             double velocityError = Vector3d.Distance(oldVelocity, updateVessel.orbitDriver.orbit.GetVel());
@@ -390,7 +403,7 @@ namespace DarkMultiPlayer
         }
 
         //Supports scaling past 1x, unlike Quaternion.Lerp
-        private Quaternion RotationLerp(Quaternion from, Quaternion to, float scaling)
+        public static Quaternion RotationLerp(Quaternion from, Quaternion to, float scaling)
         {
             Quaternion rotationDelta = to * Quaternion.Inverse(from);
             Vector3 rotAxis;
@@ -401,7 +414,7 @@ namespace DarkMultiPlayer
                 rotAngle -= 360;
             }
             rotAngle = (rotAngle * scaling) % 360;
-            return Quaternion.AngleAxis(rotAngle, rotAxis) * to;
+            return Quaternion.AngleAxis(rotAngle, rotAxis) * from;
         }
     }
 }
